@@ -26,11 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'name',
             'text:ntext',
-            'status',
-            'date',
+            [
+                'attribute'=>'status',
+                'value' => function ($data) {
+                    return $data->getStatusText(); // $data['name'] for array data, e.g. using SqlDataProvider.
+                },
+            ],
+            [
+                'attribute'=>'date',
+                'format'=>['date', 'dd-MM-Y ']
+            ],
             //'id_user',
             [
                 'class' => ActionColumn::className(),

@@ -33,10 +33,9 @@ class Theme extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'text', 'id_user'], 'required'],
+            [['name', 'text'], 'required'],
             [['text'], 'string'],
-            [['status', 'id_user'], 'integer'],
-            [['date'], 'safe'],
+            ['id_user', 'default', 'value' => Yii::$app->user->getId()],
             [['name'], 'string', 'max' => 255],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
@@ -75,5 +74,14 @@ class Theme extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'id_user']);
+    }
+
+    public function getStatusText()
+    {
+        switch ($this->status){
+            case 1: return 'на модерации';
+            case 2: return 'одобрено';
+            case 3: return 'отклонено';
+        }
     }
 }

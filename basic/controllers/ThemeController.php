@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Theme;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -51,7 +52,8 @@ class ThemeController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Theme::find(),
+            'query' => Theme::find()
+                ->where(['id_user'=>Yii::$app->user->getId()]),
             /*
             'pagination' => [
                 'pageSize' => 50
